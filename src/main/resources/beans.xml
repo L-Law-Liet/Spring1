@@ -5,8 +5,6 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
     <bean id="bankBean" class="kz.iitu.spring1.Bank">
     </bean>
-<!--    <bean id="dbBean" class="kz.iitu.spring1.DBConnection">-->
-<!--    </bean>-->
     <bean id="serviceBean" class="kz.iitu.spring1.BankService"
           init-method="init" destroy-method="destroy">
         <constructor-arg ref="bankBean"/>
