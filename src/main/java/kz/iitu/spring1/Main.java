@@ -1,6 +1,7 @@
 package kz.iitu.spring1;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -10,13 +11,18 @@ public class Main {
     public static void main(String[] args) {
         Scanner L = new Scanner(System.in);
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-        Bank bank = context.getBean("bankBean", Bank.class);
-        BankService bankService = context.getBean("serviceBean", BankService.class);
+//        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+        Bank bank = context.getBean("bank", Bank.class);
+        BankService bankService = context.getBean("bankService", BankService.class);
         System.out.println("Pin:");
         String pin = L.next();
         String name = "";
         name = bankService.checkPinAndGetName(pin);
+        if (name.equals("Not Found")){
+            System.out.println(name);
+            return;
+        }
         int choice = -1;
         while (choice != 0) {
             System.out.println("=====================================================================");

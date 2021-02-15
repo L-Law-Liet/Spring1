@@ -1,17 +1,30 @@
 package kz.iitu.spring1;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.sql.*;
 
+@Component
 public class BankService implements IBankService {
+    @Autowired
     Bank bank;
-    private String url = "jdbc:mysql://localhost:3306/spring_atm";
-    private String username = "root";
-    private String password = "root";
+
+    @Value("${db.url}")
+    private String url;
+
+    @Value("${db.username}")
+    private String username;
+
+    @Value("${db.password}")
+    private String password;
+
     public Connection conn;
-//    ApplicationContext context = Context.getContext().context;
 
     public BankService(Bank bank) {
         this.bank = bank;
@@ -180,6 +193,7 @@ public class BankService implements IBankService {
             throwables.printStackTrace();
         }
     }
+    @PostConstruct
     public void init(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -188,6 +202,7 @@ public class BankService implements IBankService {
             e.printStackTrace();
         }
     }
+    @PreDestroy
     public void destroy() throws SQLException {
         conn.close();
     }
